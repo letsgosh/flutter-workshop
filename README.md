@@ -1,5 +1,8 @@
-# flutter-workshop
+# flutter_workshop
 
-Projeto para estudos de Flutter.
+A new Flutter application.
 
-- Buscar noticias de uma api e mostrar para o usuário.
+## Getting Started
+
+For help getting started with Flutter, view our online
+[documentation](https://flutter.io/).
