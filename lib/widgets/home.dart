@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation.dart';
-//import 'content_news.dart';
-//import 'content_featured.dart';
-//import 'search.dart';bottom_navigation.dart
+import 'content_news.dart';
+import 'content_featured.dart';
+import 'search.dart';
 import 'info.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             new Container(
-//              child: new SearchWidget(),
+              child: new SearchWidget(),
             ) ,
             new Expanded(
                 child: _getContent(_current_tab)
@@ -46,8 +46,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     Widget content;
     switch(index){
-//      case 0: content = new ContentFeaturedPage(this);break;
-//      case 1: content = new ContentNewsPage(this);break;
+      case 0: content = new ContentFeaturedPage(this);break;
+      case 1: content = new ContentNewsPage(this);break;
       default:
         {
           content = new Info(new AnimationController(
