@@ -36,19 +36,19 @@ class NewsApi{
 
   }
 
-//  Future <Map> loadSearch(query) async{
-//
-//    String apiUrl = '$url/notice/search/$query';
-//    try{
-//      http.Response response = await http.get(apiUrl);
-//      // Using the JSON class to decode the JSON String
-//      const JsonDecoder decoder = const JsonDecoder();
-//      return decoder.convert(response.body);
-//
-//    } on Exception catch(_){
-//      return null;
-//    }
-//
-//  }
+  Future <Map> loadSearch(query) async{
+
+    String apiUrl = '$url/notice/search/$query';
+    try{
+      http.Response response = await http.get(apiUrl);
+      // Using the JSON class to decode the JSON String
+      const JsonDecoder decoder = const JsonDecoder();
+      return decoder.convert(response.body);
+
+    } on Exception catch(_){
+      return null;
+    }
+
+  }
 
 }
