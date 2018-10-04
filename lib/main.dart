@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'widgets/home.dart';
+import 'widgets/splash.dart';
 
-void main() => runApp(new MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Flutter Demo',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: new HomePage(),
-    );
-  }
-}
+void main() => runApp(new MaterialApp(
+  title: 'Flutter Workshop',
+  home: new SplashPage(),
+  routes: <String, WidgetBuilder>{
+    '/HomePage': (BuildContext context) => new HomePage()
+  },
+));
