@@ -8,7 +8,6 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -32,5 +31,4 @@ class _SplashPageState extends State<SplashPage> {
   void navigationPage() {
     Navigator.of(context).pushReplacementNamed('/HomePage');
   }
-
 }

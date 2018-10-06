@@ -4,8 +4,7 @@ import 'pageTransform/intro_page_item.dart';
 import '../conection/api.dart';
 import 'detail.dart';
 
-class ContentFeaturedPage extends StatefulWidget{
-
+class ContentFeaturedPage extends StatefulWidget {
   final vsync;
   var errorConection = false;
 
@@ -17,11 +16,9 @@ class ContentFeaturedPage extends StatefulWidget{
   State<StatefulWidget> createState() {
     return state;
   }
-
 }
 
-class _ContentFeaturedState extends State<ContentFeaturedPage>{
-
+class _ContentFeaturedState extends State<ContentFeaturedPage> {
   List _destaque = new List();
   AnimationController animationController;
   NewsApi repositoty = new NewsApi();
@@ -37,19 +34,16 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
     super.initState();
 
     animationController = new AnimationController(
-        vsync: widget.vsync,
-        duration: new Duration(milliseconds: 300)
-    );
+        vsync: widget.vsync, duration: new Duration(milliseconds: 300));
 
     loadNewsRecent();
-
   }
+
   @override
   Widget build(BuildContext context) {
-
     _context = context;
 
-    if(!widget.errorConection) {
+    if (!widget.errorConection) {
       return new GestureDetector(
         child: new Stack(
           children: <Widget>[
@@ -58,24 +52,23 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
               child: new Container(
                 child: new PageTransformer(
                     pageViewBuilder: (context, visibilityResolver) {
-                      return new PageView.builder(
-                        controller: new PageController(viewportFraction: 0.9),
-                        itemCount: _destaque.length,
-                        onPageChanged: (position) {
-                          setState(() {
-                            positionFeatured = position;
-                          });
-                        },
-                        itemBuilder: (context, index) {
-                          final item = _destaque[index];
-                          final pageVisibility = visibilityResolver
-                              .resolvePageVisibility(index);
-                          return new IntroNewsItem(
-                              item: item, pageVisibility: pageVisibility);
-                        },
-                      );
-                    }
-                ),
+                  return new PageView.builder(
+                    controller: new PageController(viewportFraction: 0.9),
+                    itemCount: _destaque.length,
+                    onPageChanged: (position) {
+                      setState(() {
+                        positionFeatured = position;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      final item = _destaque[index];
+                      final pageVisibility =
+                          visibilityResolver.resolvePageVisibility(index);
+                      return new IntroNewsItem(
+                          item: item, pageVisibility: pageVisibility);
+                    },
+                  );
+                }),
               ),
             ),
             _getProgress()
@@ -83,42 +76,34 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
         ),
         onTap: onTabFeatured,
       );
-
-    }else{
+    } else {
       return _buildConnectionError();
     }
-
   }
 
-  onTabFeatured(){
-
+  onTabFeatured() {
     IntroNews notice = _destaque[positionFeatured];
 
-    Navigator.of(_context).push(
-        new MaterialPageRoute(builder: (BuildContext context) {
-          return new DetailPage(notice.imageUrl,notice.title,notice.date,notice.description,notice.category,notice.link,notice.origin);
-        }
-        )
-    );
-
+    Navigator.of(_context)
+        .push(new MaterialPageRoute(builder: (BuildContext context) {
+      return new DetailPage(notice.imageUrl, notice.title, notice.date,
+          notice.description, notice.category, notice.link, notice.origin);
+    }));
   }
 
-  Widget _getProgress(){
-
-    if(carregando){
+  Widget _getProgress() {
+    if (carregando) {
       return new Container(
         child: new Center(
           child: new CircularProgressIndicator(),
         ),
       );
-    }else{
+    } else {
       return new Container();
     }
-
   }
 
-  Widget _buildConnectionError(){
-
+  Widget _buildConnectionError() {
     return new Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 20.0,
@@ -144,7 +129,7 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: new RaisedButton(
-                onPressed: (){
+                onPressed: () {
                   loadNewsRecent();
                 },
                 child: new Text("TENTAR NOVAMENTE"),
@@ -156,12 +141,10 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
         ),
       ),
     );
-
   }
 
-  void loadNewsRecent() async{
-
-    setState((){
+  void loadNewsRecent() async {
+    setState(() {
       _destaque.clear();
       carregando = true;
     });
@@ -169,7 +152,6 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
     Map result = await repositoty.loadNewsRecent();
 
     if (result != null) {
-
       widget.errorConection = false;
 
       setState(() {
@@ -181,8 +163,7 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
               item['description'],
               item['date'],
               item['link'],
-              item['origin']
-          );
+              item['origin']);
 
           _destaque.add(destaque);
         });
@@ -191,10 +172,9 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
 
         animationController.forward();
       });
-
-    }else{
+    } else {
       widget.errorConection = true;
-      setState((){
+      setState(() {
         carregando = false;
       });
     }
@@ -205,6 +185,4 @@ class _ContentFeaturedState extends State<ContentFeaturedPage>{
     animationController.dispose();
     super.dispose();
   }
-
 }
-

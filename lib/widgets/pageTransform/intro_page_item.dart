@@ -3,13 +3,8 @@ import 'package:meta/meta.dart';
 import 'page_transformer.dart';
 
 class IntroNews {
-  IntroNews(this.title,
-      this.category,
-      this.imageUrl,
-      this.description,
-      this.date,
-      this.link,
-      this.origin);
+  IntroNews(this.title, this.category, this.imageUrl, this.description,
+      this.date, this.link, this.origin);
 
   final String title;
   final String category;
@@ -71,8 +66,8 @@ class IntroNewsItem extends StatelessWidget {
         padding: const EdgeInsets.only(top: 16.0),
         child: new Text(
           item.title,
-          style: textTheme.title
-              .copyWith(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 18.0),
+          style: textTheme.title.copyWith(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
           textAlign: TextAlign.center,
         ),
       ),
@@ -92,11 +87,9 @@ class IntroNewsItem extends StatelessWidget {
     );
   }
 
-  Widget _getImageNetwork(url){
-
-    try{
-      if(url != '') {
-
+  Widget _getImageNetwork(url) {
+    try {
+      if (url != '') {
         return new FadeInImage.assetNetwork(
           placeholder: 'assets/place_holder.jpg',
           image: url,
@@ -106,25 +99,20 @@ class IntroNewsItem extends StatelessWidget {
             0.5,
           ),
         );
-      }else{
+      } else {
         return new Image.asset('assets/place_holder_2.jpg');
       }
-
-    }catch(e){
+    } catch (e) {
       return new Image.asset('assets/place_holder_2.jpg');
     }
-
   }
 
-  String _getImageUrl(url,height,width){
-
+  String _getImageUrl(url, height, width) {
     return 'http://104.131.18.84/notice/tim.php?src=$url&h=$height&w=$width';
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     final imageOverlayGradient = new DecoratedBox(
       decoration: new BoxDecoration(
         gradient: new LinearGradient(
@@ -157,5 +145,4 @@ class IntroNewsItem extends StatelessWidget {
       ),
     );
   }
-
 }

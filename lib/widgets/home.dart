@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             new Container(
+              // TODO Bonus
               child: new SearchWidget(),
             ) ,
             new Expanded(
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     Widget content;
     switch(index){
+      //TODO BONUS
       case 0: content = new ContentFeaturedPage(this);break;
       case 1: content = new ContentNewsPage(this);break;
       default:

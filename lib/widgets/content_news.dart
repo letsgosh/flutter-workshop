@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'notice.dart';
 import '../conection/api.dart';
 
-class ContentNewsPage extends StatefulWidget{
-
+class ContentNewsPage extends StatefulWidget {
   final vsync;
 
   var errorConection = false;
@@ -16,11 +15,9 @@ class ContentNewsPage extends StatefulWidget{
 
   @override
   _ContentNewsPageState createState() => state;
-
 }
 
-class _ContentNewsPageState extends State<ContentNewsPage>{
-
+class _ContentNewsPageState extends State<ContentNewsPage> {
   var current_category = 'geral';
   List _news = new List();
   List _categorys = new List();
@@ -33,7 +30,6 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
 
   @override
   void initState() {
-
     _categorys.add("Geral");
     _categorys.add("Esporte");
     _categorys.add("Tecnologia");
@@ -48,29 +44,27 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
     _category_english.add("health");
     _category_english.add("business");
 
-    loadCategory(current_category,page);
+    loadCategory(current_category, page);
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     //print(current_category);
 
     return new Container(
-      child: new Column(
-        children: <Widget>[
-          _getListCategory(),
-          widget.errorConection ? _buildConnectionError(): new Expanded(child: _getListViewWidget())
-        ],
-      )
-    );
-
+        child: new Column(
+      children: <Widget>[
+        _getListCategory(),
+        widget.errorConection
+            ? _buildConnectionError()
+            : new Expanded(child: _getListViewWidget())
+      ],
+    ));
   }
 
-  Widget _buildConnectionError(){
-
+  Widget _buildConnectionError() {
     return new Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 20.0,
@@ -96,8 +90,8 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: new RaisedButton(
-                onPressed: (){
-                  loadCategory(current_category,page);
+                onPressed: () {
+                  loadCategory(current_category, page);
                 },
                 child: new Text("TENTAR NOVAMENTE"),
                 color: Colors.blue,
@@ -108,78 +102,60 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
         ),
       ),
     );
-
   }
 
-  Widget _getListViewWidget(){
-
+  Widget _getListViewWidget() {
     ListView listView = new ListView.builder(
         itemCount: _news.length,
         padding: new EdgeInsets.only(top: 5.0),
-        itemBuilder: (context, index){
-
+        itemBuilder: (context, index) {
           //final Map notice = _news[index];
           //print(index);
 
-          if(index >= _news.length -4 && !carregando){
+          if (index >= _news.length - 4 && !carregando) {
             loadCategory(current_category, page);
           }
 
           return _news[index];
-        }
-    );
+        });
 
-    RefreshIndicator refreshIndicator = new RefreshIndicator(
-        onRefresh: myRefresh,
-        child: listView
-    );
+    RefreshIndicator refreshIndicator =
+        new RefreshIndicator(onRefresh: myRefresh, child: listView);
 
     return new Stack(
-      children: <Widget>[
-        refreshIndicator,
-        _getProgress()
-      ],
+      children: <Widget>[refreshIndicator, _getProgress()],
     );
-
   }
 
-  Widget _getProgress(){
-
-    if(carregando){
+  Widget _getProgress() {
+    if (carregando) {
       return new Container(
         child: new Center(
           child: new CircularProgressIndicator(),
         ),
       );
-    }else{
+    } else {
       return new Container();
     }
-
   }
 
-  Widget _getListCategory(){
-
+  Widget _getListCategory() {
     ListView listCategory = new ListView.builder(
         itemCount: _categorys.length,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index){
-
-
+        itemBuilder: (context, index) {
           return _buildCategoryItem(index);
-        }
-    );
+        });
 
     return new Container(
       height: 50.0,
       child: listCategory,
     );
-
   }
 
-  Widget _buildCategoryItem(index){
-
+  Widget _buildCategoryItem(index) {
     return new GestureDetector(
-      onTap: (){
+      onTap: () {
         onTabCategory(index);
       },
       child: new Row(
@@ -191,12 +167,15 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
             child: new Material(
               elevation: 2.0,
               borderRadius: const BorderRadius.all(const Radius.circular(25.0)),
-              child:  new Container(
-                padding: new EdgeInsets.only(left: 12.0,top: 7.0,bottom: 7.0,right: 12.0),
-                color: category_selected == index ? Colors.blue[800]:Colors.blue[500],
-                child: new Text(_categorys[index],
-                  style: new TextStyle(
-                      color: Colors.white),
+              child: new Container(
+                padding: new EdgeInsets.only(
+                    left: 12.0, top: 7.0, bottom: 7.0, right: 12.0),
+                color: category_selected == index
+                    ? Colors.blue[800]
+                    : Colors.blue[500],
+                child: new Text(
+                  _categorys[index],
+                  style: new TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -204,51 +183,40 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
         ],
       ),
     );
-
   }
 
-  onTabCategory(index){
-
-    if(!carregando) {
-
+  onTabCategory(index) {
+    if (!carregando) {
       setState(() {
         category_selected = index;
         page = 0;
       });
 
       loadCategory(_category_english[index], page);
-
     }
-
   }
 
-  Future<Null> myRefresh() async{
-
-    await loadCategory(current_category,page);
+  Future<Null> myRefresh() async {
+    await loadCategory(current_category, page);
 
     return null;
   }
 
-  loadCategory(category,page) async{
-
-    if(page < pages-1 || page == 0) {
-
-      setState((){
-
+  loadCategory(category, page) async {
+    if (page < pages - 1 || page == 0) {
+      setState(() {
         current_category = category;
 
-        if(page == 0) {
+        if (page == 0) {
           _news.clear();
         }
 
         carregando = true;
-
       });
 
       Map result = await repository.loadNews(category, page.toString());
 
-      if(result != null) {
-
+      if (result != null) {
         widget.errorConection = false;
 
         setState(() {
@@ -266,34 +234,26 @@ class _ContentNewsPageState extends State<ContentNewsPage>{
                 new AnimationController(
                   duration: new Duration(milliseconds: 300),
                   vsync: widget.vsync,
-                )
-            );
+                ));
             _news.add(notice);
             notice.animationController.forward();
           });
 
           carregando = false;
-        }
-
-        );
-      }else{
-
+        });
+      } else {
         widget.errorConection = true;
 
-        setState((){
+        setState(() {
           carregando = false;
         });
-
       }
-
     }
   }
 
   @override
   void dispose() {
-    for (Notice n in _news)
-      n.animationController.dispose();
+    for (Notice n in _news) n.animationController.dispose();
     super.dispose();
   }
-
 }
