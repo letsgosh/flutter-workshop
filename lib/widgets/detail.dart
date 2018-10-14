@@ -5,8 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../util/date_util.dart';
 import 'package:share/share.dart';
 
-class DetailPage extends StatelessWidget{
-
+class DetailPage extends StatelessWidget {
   var _img;
   var _title;
   var _date;
@@ -15,7 +14,8 @@ class DetailPage extends StatelessWidget{
   var _category;
   var _origin;
 
-  DetailPage(this._img,this._title,this._date,this._description,this._category,this._link,this._origin);
+  DetailPage(this._img, this._title, this._date, this._description,
+      this._category, this._link, this._origin);
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +39,10 @@ class DetailPage extends StatelessWidget{
           borderRadius: new BorderRadius.circular(6.0),
           child: new ListView(
             children: <Widget>[
-             new Hero(
-                 tag: _title,
-                 child: _getImageNetwork(_getImageUrl(_img,250,''))
-             ),
-              _getBody(_title,_date,_description,_origin),
+              new Hero(
+                  tag: _title,
+                  child: _getImageNetwork(_getImageUrl(_img, 250, ''))),
+              _getBody(_title, _date, _description, _origin),
             ],
           ),
         ),
@@ -51,43 +50,39 @@ class DetailPage extends StatelessWidget{
     );
   }
 
-  Widget _getImageNetwork(url){
-
-    try{
-      if(url != '') {
-
+  Widget _getImageNetwork(url) {
+    try {
+      if (url != '') {
         return new Container(
           height: 200.0,
           child: new FadeInImage.assetNetwork(
             placeholder: 'assets/place_holder.jpg',
             image: url,
-            fit: BoxFit.cover,),
+            fit: BoxFit.cover,
+          ),
         );
-      }else{
+      } else {
         return new Container(
           height: 200.0,
           child: new Image.asset('assets/place_holder_3.jpg'),
         );
       }
-
-    }catch(e){
+    } catch (e) {
       return new Container(
         height: 200.0,
         child: new Image.asset('assets/place_holder_3.jpg'),
       );
     }
-
   }
 
-  Widget _getBody(tittle,date,description,origin){
-
+  Widget _getBody(tittle, date, description, origin) {
     return new Container(
       margin: new EdgeInsets.all(15.0),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _getTittle(tittle),
-          _getDate(date,origin),
+          _getDate(date, origin),
           _getDescription(description),
           _getAntLink(),
           _getLink(_link)
@@ -99,53 +94,46 @@ class DetailPage extends StatelessWidget{
   Widget _getAntLink() {
     return new Container(
       margin: new EdgeInsets.only(top: 30.0),
-      child: new Text("Mais detalhes acesse:",
-        style: new TextStyle(fontWeight: FontWeight.bold,
-            color: Colors.grey[600]
-        ),
+      child: new Text(
+        "Mais detalhes acesse:",
+        style:
+            new TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[600]),
       ),
     );
   }
-  Widget _getLink(link){
 
+  Widget _getLink(link) {
     return new GestureDetector(
       child: new Text(
         link,
         style: new TextStyle(color: Colors.blue),
       ),
-      onTap: (){
+      onTap: () {
         _launchURL(link);
       },
     );
-
   }
 
   _getTittle(tittle) {
-    return new Text(tittle,
-    style: new TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20.0),
+    return new Text(
+      tittle,
+      style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
     );
   }
 
-  _getDate(date,origin) {
-
+  _getDate(date, origin) {
     return new Container(
       margin: new EdgeInsets.only(top: 4.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          new Text(new DateUtil().buildDate(date),
-            style: new TextStyle(
-                fontSize: 10.0,
-                color: Colors.grey
-            ),
+          new Text(
+            new DateUtil().buildDate(date),
+            style: new TextStyle(fontSize: 10.0, color: Colors.grey),
           ),
-          new Text(origin,
-            style: new TextStyle(
-                fontSize: 10.0,
-                color: Colors.grey
-            ),
+          new Text(
+            origin,
+            style: new TextStyle(fontSize: 10.0, color: Colors.grey),
           )
         ],
       ),
@@ -154,23 +142,20 @@ class DetailPage extends StatelessWidget{
 
   _getDescription(description) {
     return new Container(
-      margin: new  EdgeInsets.only(top: 20.0),
+      margin: new EdgeInsets.only(top: 20.0),
       child: new Text(description),
     );
   }
 
-  String _getImageUrl(url,height,width){
-
+  String _getImageUrl(url, height, width) {
     return 'http://104.131.18.84/notice/tim.php?src=$url&h=$height&w=$width';
-
   }
 
   _launchURL(url) async {
-      await launch(url);
+    await launch(url);
   }
 
   Future shareNotice() async {
     await Share.share("$_title:\n$_link");
   }
-
 }

@@ -7,6 +7,7 @@ class Info extends StatelessWidget{
 
   final AnimationController animationController;
 
+  // BUILD POR ULTIMO
   @override
   Widget build(BuildContext context) {
 
@@ -32,14 +33,15 @@ class Info extends StatelessWidget{
 
   }
 
-   Widget _getTittle() {
+  Widget _getTittle() {
     return new Text("FlutterNews",
-    style: new TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.blue,
-        fontSize: 25.0),
-        );
-   }
+      style: new TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.blue,
+          fontSize: 25.0),
+    );
+  }
+
 
   Widget _getContent() {
     
