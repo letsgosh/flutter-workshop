@@ -11,11 +11,9 @@ class DetailPage extends StatelessWidget {
   var _date;
   var _description;
   var _link;
-  var _category;
   var _origin;
 
-  DetailPage(this._img, this._title, this._date, this._description,
-      this._category, this._link, this._origin);
+  DetailPage(this._img, this._title, this._date, this._description, this._link, this._origin);
 
   @override
   Widget build(BuildContext context) {

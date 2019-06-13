@@ -18,33 +18,15 @@ class ContentNewsPage extends StatefulWidget {
 }
 
 class _ContentNewsPageState extends State<ContentNewsPage> {
-  var current_category = 'geral';
   List _news = new List();
-  List _categorys = new List();
-  List _category_english = new List();
   var carregando = false;
   var repository = new NewsApi();
   var page = 0;
   var pages = 1;
-  var category_selected = 0;
 
   @override
   void initState() {
-    _categorys.add("Geral");
-    _categorys.add("Esporte");
-    _categorys.add("Tecnologia");
-    _categorys.add("Entretenimento");
-    _categorys.add("Saúde");
-    _categorys.add("Negócios");
-
-    _category_english.add("geral");
-    _category_english.add("sports");
-    _category_english.add("technology");
-    _category_english.add("entertainment");
-    _category_english.add("health");
-    _category_english.add("business");
-
-    loadCategory(current_category, page);
+    loadCategory(page);
 
     super.initState();
   }
@@ -56,7 +38,6 @@ class _ContentNewsPageState extends State<ContentNewsPage> {
     return new Container(
         child: new Column(
       children: <Widget>[
-        _getListCategory(),
         widget.errorConection
             ? _buildConnectionError()
             : new Expanded(child: _getListViewWidget())
@@ -91,7 +72,7 @@ class _ContentNewsPageState extends State<ContentNewsPage> {
               padding: const EdgeInsets.all(16.0),
               child: new RaisedButton(
                 onPressed: () {
-                  loadCategory(current_category, page);
+                  loadCategory(page);
                 },
                 child: new Text("TENTAR NOVAMENTE"),
                 color: Colors.blue,
@@ -113,7 +94,7 @@ class _ContentNewsPageState extends State<ContentNewsPage> {
           //print(index);
 
           if (index >= _news.length - 4 && !carregando) {
-            loadCategory(current_category, page);
+            loadCategory(page);
           }
 
           return _news[index];
@@ -139,74 +120,15 @@ class _ContentNewsPageState extends State<ContentNewsPage> {
     }
   }
 
-  Widget _getListCategory() {
-    ListView listCategory = new ListView.builder(
-        itemCount: _categorys.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return _buildCategoryItem(index);
-        });
-
-    return new Container(
-      height: 50.0,
-      child: listCategory,
-    );
-  }
-
-  Widget _buildCategoryItem(index) {
-    return new GestureDetector(
-      onTap: () {
-        onTabCategory(index);
-      },
-      child: new Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Container(
-            margin: new EdgeInsets.only(left: 10.0),
-            child: new Material(
-              elevation: 2.0,
-              borderRadius: const BorderRadius.all(const Radius.circular(25.0)),
-              child: new Container(
-                padding: new EdgeInsets.only(
-                    left: 12.0, top: 7.0, bottom: 7.0, right: 12.0),
-                color: category_selected == index
-                    ? Colors.blue[800]
-                    : Colors.blue[500],
-                child: new Text(
-                  _categorys[index],
-                  style: new TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  onTabCategory(index) {
-    if (!carregando) {
-      setState(() {
-        category_selected = index;
-        page = 0;
-      });
-
-      loadCategory(_category_english[index], page);
-    }
-  }
-
   Future<Null> myRefresh() async {
-    await loadCategory(current_category, page);
+    await loadCategory(page);
 
     return null;
   }
 
-  loadCategory(category, page) async {
+  loadCategory(page) async {
     if (page < pages - 1 || page == 0) {
       setState(() {
-        current_category = category;
-
         if (page == 0) {
           _news.clear();
         }
@@ -214,7 +136,7 @@ class _ContentNewsPageState extends State<ContentNewsPage> {
         carregando = true;
       });
 
-      Map result = await repository.loadNews(category, page.toString());
+      Map result = await repository.loadNews(page.toString());
 
       if (result != null) {
         widget.errorConection = false;

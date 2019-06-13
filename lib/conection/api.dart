@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 class NewsApi {
   final String url = 'http://104.131.18.84';
 
-  Future<Map> loadNews(String category, String page) async {
-    String apiUrl = '$url/notice/news/$category/$page';
+  Future<Map> loadNews(String page) async {
+    String apiUrl = '$url/notice/news/geral/$page';
     try {
       http.Response response = await http.get(apiUrl);
       const JsonDecoder decoder = const JsonDecoder();

@@ -63,7 +63,7 @@ class _ContentFeaturedState extends State<ContentFeaturedPage> {
                     itemBuilder: (context, index) {
                       final item = _destaque[index];
                       final pageVisibility =
-                          visibilityResolver.resolvePageVisibility(index);
+                      visibilityResolver.resolvePageVisibility(index);
                       return new IntroNewsItem(
                           item: item, pageVisibility: pageVisibility);
                     },
@@ -87,7 +87,7 @@ class _ContentFeaturedState extends State<ContentFeaturedPage> {
     Navigator.of(_context)
         .push(new MaterialPageRoute(builder: (BuildContext context) {
       return new DetailPage(notice.imageUrl, notice.title, notice.date,
-          notice.description, notice.category, notice.link, notice.origin);
+          notice.description, notice.link, notice.origin);
     }));
   }
 

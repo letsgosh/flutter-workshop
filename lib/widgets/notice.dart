@@ -47,7 +47,7 @@ class Notice extends StatelessWidget {
         .push(new MaterialPageRoute(builder: (BuildContext context) {
       //DEPOIS DE CRIAR O DETAIL
       return new DetailPage(
-          _img, _title, _date, _description, _category, _link, _origin);
+          _img, _title, _date, _description, _link, _origin);
     }));
   }
 
